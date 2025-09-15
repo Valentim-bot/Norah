@@ -1,0 +1,40 @@
+-- Create database (if not exists)
+CREATE DATABASE IF NOT EXISTS esp_mlx_dbnorahv3;
+USE esp_mlx_dbnorahv3;
+
+-- Create table for two MLX sensors
+CREATE TABLE IF NOT EXISTS esp32_table_mlx (
+    id VARCHAR(255) NOT NULL,                 -- Unique identifier for the ESP32
+
+    -- Sensor 1
+    amb1 FLOAT(10,2) NOT NULL,               -- Ambient temperature Sensor 1
+    obj1 FLOAT(10,2) NOT NULL,               -- Object temperature Sensor 1
+    speed1 INT(3) NOT NULL,                  -- Applied speed Sensor 1
+    proportionalSpeed1 INT(3) NOT NULL,      -- Proportional speed Sensor 1
+    speed1_1 TINYINT(1) NOT NULL,            -- Manual button 1 for Sensor 1
+    speed2_1 TINYINT(1) NOT NULL,            -- Manual button 2 for Sensor 1
+    speed3_1 TINYINT(1) NOT NULL,            -- Manual button 3 for Sensor 1
+    speed4_1 TINYINT(1) NOT NULL,            -- Manual button 4 for Sensor 1
+
+    -- Sensor 2
+    amb2 FLOAT(10,2) NOT NULL,               -- Ambient temperature Sensor 2
+    obj2 FLOAT(10,2) NOT NULL,               -- Object temperature Sensor 2
+    speed2 INT(3) NOT NULL,                  -- Applied speed Sensor 2
+    proportionalSpeed2 INT(3) NOT NULL,      -- Proportional speed Sensor 2
+    speed1_2 TINYINT(1) NOT NULL,            -- Manual button 1 for Sensor 2
+    speed2_2 TINYINT(1) NOT NULL,            -- Manual button 2 for Sensor 2
+    speed3_2 TINYINT(1) NOT NULL,            -- Manual button 3 for Sensor 2
+    speed4_2 TINYINT(1) NOT NULL,            -- Manual button 4 for Sensor 2
+
+    PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Insert initial row
+INSERT INTO esp32_table_mlx 
+(id, 
+ amb1, obj1, speed1, proportionalSpeed1, speed1_1, speed2_1, speed3_1, speed4_1,
+ amb2, obj2, speed2, proportionalSpeed2, speed1_2, speed2_2, speed3_2, speed4_2
+) 
+VALUES 
+('esp32_01', 0.00, 0.00, 0, 0, 0, 0, 0, 0,
+            0.00, 0.00, 0, 0, 0, 0, 0, 0);
