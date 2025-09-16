@@ -8,10 +8,6 @@
 TwoWire I2Cone = TwoWire(0);   // Default I2C (GPIO21 SDA, GPIO22 SCL)
 TwoWire I2Ctwo = TwoWire(1);   // Second I2C (GPIO25 SDA, GPIO26 SCL)
 
-//Run this on webserver(google chrome):http://localhost/mlxsensornorah/test/index.php
-//http://192.168.11.131/mlxsensornorah/test/index.php
-
-
 // ===== MLX90614 Sensors =====
 Adafruit_MLX90614 mlx1 = Adafruit_MLX90614();
 Adafruit_MLX90614 mlx2 = Adafruit_MLX90614();
@@ -21,7 +17,6 @@ const int dcmotor1 = 4;
 const int dcmotor2 = 15;
 const int IN1 = 5;
 const int IN3 = 18;
-
 
 // ===== Wi-Fi Settings =====
 const char* ssid     = "La_Fibre_dOrange_73D3";
@@ -233,6 +228,10 @@ void loop() {
   scaledAmb1   = map((int)amb1,0,70,0,70);
   scaledAmb2   = map((int)amb2,0,70,0,70);
 
+  // Scale applied speeds 0-255 to 0-100 before sending
+  int scaledAppliedSpeed1 = map(appliedSpeed1, 0, 255, 0, 100);
+  int scaledAppliedSpeed2 = map(appliedSpeed2, 0, 255, 0, 100);
+
   Serial.println("Motor Speeds:");
   Serial.print("Sensor 1 -> Applied: "); Serial.print(appliedSpeed1); 
   Serial.print(", Proportional: "); Serial.println(scaledSpeed1);
@@ -250,12 +249,12 @@ void loop() {
     postData = "id=esp32_01";
     postData += "&amb1=" + String(scaledAmb1);
     postData += "&obj1=" + String(obj1);
-    postData += "&speed1=" + String(appliedSpeed1);
+    postData += "&speed1=" + String(scaledAppliedSpeed1);           // scaled applied speed
     postData += "&proportionalSpeed1=" + String(scaledSpeed1);
 
     postData += "&amb2=" + String(scaledAmb2);
     postData += "&obj2=" + String(obj2);
-    postData += "&speed2=" + String(appliedSpeed2);
+    postData += "&speed2=" + String(scaledAppliedSpeed2);           // scaled applied speed
     postData += "&proportionalSpeed2=" + String(scaledSpeed2);
 
     Serial.println("Sending data to MySQL...");
